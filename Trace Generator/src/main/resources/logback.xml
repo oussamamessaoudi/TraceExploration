@@ -1,0 +1,22 @@
+<configuration>
+    <appender name="SPLUNK" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
+        <url>https://localhost:8088</url>
+        <token>fe31da07-b70a-436c-9a67-9fbc1b2184b6</token>
+        <batch_size_count>1</batch_size_count>
+        <disableCertificateValidation>true</disableCertificateValidation>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%msg</pattern>
+        </layout>
+    </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>%d %-4relative [%thread] [%-5level %X{traceId:-},%X{spanId:-}] %logger{35} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="SPLUNK"/>
+    </root>
+
+</configuration>
