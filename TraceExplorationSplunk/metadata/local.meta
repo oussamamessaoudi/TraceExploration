@@ -1,0 +1,24 @@
+[app/ui]
+owner = admin
+version = 9.1.1
+modtime = 1701532224.679897000
+
+[app/launcher]
+owner = admin
+version = 9.1.1
+modtime = 1701532224.688734000
+
+[app/package/check_for_updates]
+version = 9.1.1
+modtime = 1701532224.692183000
+
+[inputs/http%3A%2F%2FTesting%20Exploration%20Trace]
+access = read : [ admin ], write : [ admin ]
+export = none
+owner = admin
+version = 9.1.1
+modtime = 1701540234.083409000
+
+[nav/default]
+version = 9.1.1
+modtime = 1701576869.801259000
