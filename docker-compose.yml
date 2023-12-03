@@ -10,6 +10,7 @@ version: '3'
 services:
   splunkenterprise:
     #build: .
+    container_name: "splunk"
     hostname: splunkenterprise
     image: splunk/splunk:latest
     #image: splunk/splunk:edge
@@ -25,5 +26,5 @@ services:
       - "8088:8088"
       - "1514:1514"
     volumes:
-      - ./TraceExplorationSplunk:/opt/splunk/etc/apps/TraceExplorationSplunk/
+      - ./TraceExploration:/opt/splunk/etc/apps/TraceExploration/
 
