@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -26,13 +27,14 @@ public class LoggingAspect {
     public Object logAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Logger log = getLogger(proceedingJoinPoint.getTarget().getClass());
         ScopedSpan span = tracer.startScopedSpan(proceedingJoinPoint.getTarget().getClass().getSimpleName());
-        log.info(buildMessage(proceedingJoinPoint.getArgs(), TypeLog.INPUT, proceedingJoinPoint.getSignature().toShortString()));
+        MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
+        log.info(buildMessage(LogElementHelper.logElement(signature.getMethod(), proceedingJoinPoint.getArgs()), TypeLog.INPUT, proceedingJoinPoint.getSignature().toShortString()));
         try {
             Object proceed = proceedingJoinPoint.proceed();
-            log.info(buildMessage(proceed, TypeLog.OUTPUT, null));
+            log.info(buildMessage(LogElementHelper.logObject(proceed), TypeLog.OUTPUT, null));
             return proceed;
         } catch (Throwable throwable) {
-            log.error(buildMessage(throwable, TypeLog.ERROR, null));
+            log.error(buildMessage(throwable.toString(), TypeLog.ERROR, null));
             throw throwable;
         } finally {
             span.end();

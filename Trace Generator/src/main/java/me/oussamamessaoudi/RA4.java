@@ -7,7 +7,7 @@ import lombok.SneakyThrows;
 public class RA4 {
 
     @SneakyThrows
-    public void execute(String e) {
+    public void execute(@ConfidentialField String fieldConfidential, String field) {
         Thread.sleep(2000);
     }
 }

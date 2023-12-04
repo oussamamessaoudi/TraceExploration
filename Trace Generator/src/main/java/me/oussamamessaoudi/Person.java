@@ -7,5 +7,6 @@ import lombok.Data;
 @Builder
 public class Person {
     private String name;
+    @ConfidentialField
     private String birthday;
 }
