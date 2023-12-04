@@ -18,7 +18,7 @@ public class LogElementHelper {
         for (int i = 0, parametersLength = parameters.length; i < parametersLength; i++) {
             Parameter parameter = parameters[i];
             if (parameter.getAnnotation(ConfidentialField.class) != null) {
-                logs.add(parameter.getName() + "=******");
+                logs.add(parameter.getName() + "***");
             } else {
                 logs.add(parameter.getName() + "=" + logObject(objects[i]));
             }
