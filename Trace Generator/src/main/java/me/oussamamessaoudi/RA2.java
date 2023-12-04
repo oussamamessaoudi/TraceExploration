@@ -1,9 +1,8 @@
 package me.oussamamessaoudi;
 
 import lombok.SneakyThrows;
-import org.springframework.stereotype.Component;
 
-@Component
+@RA
 public class RA2 {
     @SneakyThrows
     public Person exec(Person person) {

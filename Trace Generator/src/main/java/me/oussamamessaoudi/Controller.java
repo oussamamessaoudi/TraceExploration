@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 public class Controller {
     RA1 ra1;
     RA2 ra2;
+    RA4 ra4;
     Tracer tracer;
     TaskExecutor taskExecutor;
 
@@ -32,6 +33,8 @@ public class Controller {
                                 ra2.exec(builder.apply("RA2.1"));
                             }, () -> {
                                 ra1.exec(builder.apply("RA1.2"));
+                            }, () -> {
+                                ra4.execute("RA4");
                             })
                     //.parallel()
                     .forEach(runnable -> taskExecutor.execute(runnable));

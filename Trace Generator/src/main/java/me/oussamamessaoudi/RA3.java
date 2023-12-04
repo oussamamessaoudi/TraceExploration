@@ -1,16 +1,12 @@
 package me.oussamamessaoudi;
 
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
 @RA
-@AllArgsConstructor
-public class RA1 {
-    private RA3 ra3;
+public class RA3 {
     @SneakyThrows
     public Person exec(Person person) {
         Thread.sleep(2000);
-        ra3.exec(person);
         if (person.getName().isBlank()) {
             throw new RuntimeException("Required champ [NAME]");
         }
