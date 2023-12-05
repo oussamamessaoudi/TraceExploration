@@ -34,7 +34,7 @@ public class Controller {
                             }, () -> {
                                 ra1.exec(builder.apply("RA1.2"));
                             }, () -> {
-                                ra4.execute("RA4", "RA4");
+                                ra4.execute("RA4", "RA4", "hello");
                             })
                     //.parallel()
                     .forEach(runnable -> taskExecutor.execute(runnable));

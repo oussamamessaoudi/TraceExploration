@@ -1,0 +1,6 @@
+GET http://localhost:8080/?name=name&birthday=mars
+Accept: application/json
+
+<> 2023-12-04T174727.200.json
+
+###

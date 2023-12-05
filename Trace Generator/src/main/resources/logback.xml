@@ -10,9 +10,7 @@
     </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <Pattern>%d %-4relative [%thread] %highlight([%-5level %X{traceId:-},%X{spanId:-}]) %cyan(%logger{35}) -
-                %msg%n
-            </Pattern>
+            <Pattern>%d %-4relative [%thread] %highlight([%-5level %X{traceId:-},%X{spanId:-}]) %cyan(%logger{35}) - %msg%n</Pattern>
         </encoder>
     </appender>
 
