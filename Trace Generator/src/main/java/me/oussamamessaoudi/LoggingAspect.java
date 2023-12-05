@@ -32,7 +32,9 @@ public class LoggingAspect {
         log.info(buildMessage(logElementHelper.logElement(signature.getMethod(), proceedingJoinPoint.getArgs()), TypeLog.INPUT, proceedingJoinPoint.getSignature().toShortString()));
         try {
             Object proceed = proceedingJoinPoint.proceed();
-            log.info(buildMessage(logElementHelper.logObject(proceed), TypeLog.OUTPUT, null));
+            Class<?> returnType = signature.getReturnType();
+            var data = (returnType == void.class) ? "void" : (returnType.getSimpleName() + logElementHelper.logObject(proceed));
+            log.info(buildMessage(data, TypeLog.OUTPUT, null));
             return proceed;
         } catch (Throwable throwable) {
             log.error(buildMessage(throwable.toString(), TypeLog.ERROR, null));
