@@ -5,31 +5,43 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
-import lombok.AllArgsConstructor;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static org.slf4j.LoggerFactory.getLogger;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 
 @Aspect
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoggingAspect {
-    private Tracer tracer;
-    private ObjectMapper objectMapper;
-    private LogElementHelper logElementHelper;
+    private final Tracer tracer;
+    private final ObjectMapper objectMapper;
+    private final LogElementHelper logElementHelper;
+    private Map<Class<?>, Logger> loggers;
+
+    @PostConstruct
+    void init() {
+        loggers = new ConcurrentHashMap<>();
+    }
+
 
     @Around("within(@RA *) && execution(public * *(..))")
     public Object logAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        Logger log = getLogger(proceedingJoinPoint.getTarget().getClass());
-        ScopedSpan span = tracer.startScopedSpan(proceedingJoinPoint.getTarget().getClass().getSimpleName());
+        Class<?> aClass = proceedingJoinPoint.getTarget().getClass();
+        Logger log = loggers.computeIfAbsent(aClass, LoggerFactory::getLogger);
+        ScopedSpan span = tracer.startScopedSpan(aClass.getSimpleName());
         MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
-        log.info(buildMessage(logElementHelper.logElement(signature.getMethod(), proceedingJoinPoint.getArgs()), TypeLog.INPUT, proceedingJoinPoint.getSignature().toShortString()));
+        log.info(buildMessage(logElementHelper.logElement(signature.getMethod(), proceedingJoinPoint.getArgs()), TypeLog.INPUT, signature.toShortString()));
         try {
             Object proceed = proceedingJoinPoint.proceed();
             Class<?> returnType = signature.getReturnType();

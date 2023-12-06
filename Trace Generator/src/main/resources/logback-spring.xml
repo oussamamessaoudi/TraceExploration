@@ -8,15 +8,20 @@
             <pattern>%msg</pattern>
         </layout>
     </appender>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <variable scope="context" name="traces" value="%replace(, %X{traceId}, %X{spanId}){', , ', ''}"/>
         <encoder>
-            <Pattern>%d %-4relative [%thread] %highlight([%-5level %X{traceId:-},%X{spanId:-}]) %cyan(%logger{35}) - %msg%n</Pattern>
+            <Pattern>%d %-4relative [%thread] %highlight([%level${traces}]) %cyan(%logger{35}) - %msg%n</Pattern>
         </encoder>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="SPLUNK"/>
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="SPLUNK" />
     </root>
-
+    <springProfile name="local">
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
 </configuration>
