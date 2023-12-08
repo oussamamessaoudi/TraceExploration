@@ -1,6 +1,7 @@
 package me.oussamamessaoudi;
 
 import lombok.SneakyThrows;
+import me.oussamamessaoudi.loging_config.RA;
 
 @RA
 public class RA2 {

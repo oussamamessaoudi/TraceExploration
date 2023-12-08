@@ -1,6 +1,5 @@
 ### Search format
 
 ```spl
-source="http:Testing Exploration Trace" | search "properties.traceId"=656d19ee0ded3a3adc35ba207412d391 
-| stats list(severity), list(logger), list(message.typeLog) by "properties.spanId"
+`RAByTraceId(6573a6251ee7e8dda088af17fd5a2042)`
 ```

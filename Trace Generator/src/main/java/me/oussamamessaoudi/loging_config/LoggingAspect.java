@@ -1,4 +1,4 @@
-package me.oussamamessaoudi.LogingRaConfig;
+package me.oussamamessaoudi.loging_config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
