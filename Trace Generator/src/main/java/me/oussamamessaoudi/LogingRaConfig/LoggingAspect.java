@@ -1,7 +1,6 @@
-package me.oussamamessaoudi;
+package me.oussamamessaoudi.LogingRaConfig;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.tracing.ScopedSpan;
 import io.micrometer.tracing.Tracer;
@@ -38,30 +37,31 @@ public class LoggingAspect {
     @Around("within(@RA *) && execution(public * *(..))")
     public Object logAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Class<?> aClass = proceedingJoinPoint.getTarget().getClass();
-        Logger log = loggers.computeIfAbsent(aClass, LoggerFactory::getLogger);
         ScopedSpan span = tracer.startScopedSpan(aClass.getSimpleName());
         MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
-        log.info(buildMessage(logElementHelper.logElement(signature.getMethod(), proceedingJoinPoint.getArgs()), TypeLog.INPUT, signature.toShortString()));
+        LogPattern.LogPatternBuilder logPatternBuilder = LogPattern.builder()
+                .input(logElementHelper.logElement(signature.getMethod(), proceedingJoinPoint.getArgs()))
+                .signature(signature.toShortString());
         try {
             Object proceed = proceedingJoinPoint.proceed();
             Class<?> returnType = signature.getReturnType();
             var data = (returnType == void.class) ? "void" : (returnType.getSimpleName() + logElementHelper.logObject(proceed));
-            log.info(buildMessage(data, TypeLog.OUTPUT, null));
+            logPatternBuilder.output(data).isError(false);
             return proceed;
         } catch (Throwable throwable) {
-            log.error(buildMessage(throwable.toString(), TypeLog.ERROR, null));
+            logPatternBuilder.output(throwable.toString()).isError(true);
             throw throwable;
         } finally {
+            Logger log = loggers.computeIfAbsent(aClass, LoggerFactory::getLogger);
+            LogPattern logPattern = logPatternBuilder.build();
+            String msg = objectMapper.writeValueAsString(logPattern);
+            if (logPattern.isError()) {
+                log.error(msg);
+            } else {
+                log.info(msg);
+            }
             span.end();
         }
     }
 
-    private String buildMessage(Object data, TypeLog typeLog, String signature) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(LogPattern.builder()
-                .data(data)
-                .typeLog(typeLog)
-                .signature(signature)
-                .build());
-
-    }
 }

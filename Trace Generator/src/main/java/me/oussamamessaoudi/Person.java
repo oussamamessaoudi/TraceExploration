@@ -2,6 +2,7 @@ package me.oussamamessaoudi;
 
 import lombok.Builder;
 import lombok.Data;
+import me.oussamamessaoudi.LogingRaConfig.ConfidentialField;
 
 import java.util.List;
 import java.util.Map;

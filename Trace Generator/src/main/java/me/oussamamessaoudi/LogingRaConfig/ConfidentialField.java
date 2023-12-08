@@ -1,15 +1,12 @@
-package me.oussamamessaoudi;
-
-
-import org.springframework.stereotype.Component;
+package me.oussamamessaoudi.LogingRaConfig;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Component
-@Target(ElementType.TYPE)
+@Target(value = {ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RA {
+public @interface ConfidentialField {
+    String value() default "****";
 }

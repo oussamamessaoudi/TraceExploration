@@ -1,4 +1,4 @@
-package me.oussamamessaoudi;
+package me.oussamamessaoudi.LogingRaConfig;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -10,8 +10,8 @@ import lombok.Data;
 public class LogPattern {
     @Builder.Default
     private long time = System.nanoTime();
-    private Object data;
-    private TypeLog typeLog;
     private String signature;
-
+    private String input;
+    private String output;
+    private boolean isError;
 }

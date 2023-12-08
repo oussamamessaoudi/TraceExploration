@@ -2,6 +2,7 @@ package me.oussamamessaoudi;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import me.oussamamessaoudi.LogingRaConfig.RA;
 
 @RA
 @AllArgsConstructor

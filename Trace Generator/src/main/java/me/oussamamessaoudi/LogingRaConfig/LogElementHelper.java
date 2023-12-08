@@ -1,4 +1,4 @@
-package me.oussamamessaoudi;
+package me.oussamamessaoudi.LogingRaConfig;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

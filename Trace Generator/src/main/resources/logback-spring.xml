@@ -20,8 +20,9 @@
         <appender-ref ref="SPLUNK" />
     </root>
     <springProfile name="local">
-        <root level="DEBUG">
+        <root level="INFO">
             <appender-ref ref="CONSOLE" />
         </root>
+        <Logger name="me.oussamamessaoudi" level="DEBUG"/>
     </springProfile>
 </configuration>
