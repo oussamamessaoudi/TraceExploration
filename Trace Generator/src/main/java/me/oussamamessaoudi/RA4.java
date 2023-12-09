@@ -11,7 +11,7 @@ public class RA4 {
     @SneakyThrows
     public void execute(@ConfidentialField String fieldConfidential,
                         String field,
-                        @ConfidentialField("$$$$$") String fieldConfidentialPersonalise) {
+                        @ConfidentialField(value = '$', size = 6) String fieldConfidentialPersonalise) {
         Thread.sleep(2000);
     }
 }

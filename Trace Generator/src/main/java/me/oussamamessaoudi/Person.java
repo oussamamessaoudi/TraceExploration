@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 public class Person {
     private String name;
-    @ConfidentialField
+    @ConfidentialField(size = 6)
     private String birthday;
     @Builder.Default
     private int[] arrayInt = new int[]{1, 2};
@@ -21,7 +21,7 @@ public class Person {
     private List<Integer> listInteger = List.of(3, 3);
     @Builder.Default
     private Map<Integer, String> mapInteger = Map.of(3, "3", 4, "4");
-    @ConfidentialField("£££££")
+    @ConfidentialField(value = '£')
     @Builder.Default
     private double confidentialWithValue;
 }

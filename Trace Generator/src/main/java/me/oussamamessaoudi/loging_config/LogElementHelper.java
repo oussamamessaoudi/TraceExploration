@@ -1,6 +1,7 @@
 package me.oussamamessaoudi.loging_config;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Array;
@@ -15,6 +16,11 @@ import java.util.Map;
 @Component
 public class LogElementHelper {
 
+    @NotNull
+    private static String getValue(ConfidentialField annotation) {
+        return StringUtils.repeat(annotation.value(), annotation.size());
+    }
+
     public String logElement(Method method, Object[] objects) throws IllegalAccessException {
         List<String> logs = new ArrayList<>(objects.length);
         Parameter[] parameters = method.getParameters();
@@ -22,7 +28,7 @@ public class LogElementHelper {
             Parameter parameter = parameters[i];
             var annotation = parameter.getAnnotation(ConfidentialField.class);
             if (annotation != null) {
-                logs.add(parameter.getName() + "=" + annotation.value());
+                logs.add(parameter.getName() + "=" + getValue(annotation));
             } else {
                 logs.add(parameter.getName() + "=" + logObject(objects[i]));
             }
@@ -53,7 +59,7 @@ public class LogElementHelper {
         for (Field declaredField : declaredFields) {
             var annotation = declaredField.getAnnotation(ConfidentialField.class);
             if (annotation != null) {
-                logs.add(declaredField.getName() + "=" + annotation.value());
+                logs.add(declaredField.getName() + "=" + getValue(annotation));
             } else {
                 declaredField.setAccessible(true);
                 logs.add(declaredField.getName() + "=" + logObject(declaredField.get(object)));
