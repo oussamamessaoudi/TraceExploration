@@ -16,9 +16,11 @@ public class Person {
     @Builder.Default
     private int[] arrayInt = new int[]{1, 2};
     @Builder.Default
-    private Integer[] arrayInteger = new Integer[]{3, 3};
+    private Integer[] arrayInteger = {3, 3};
     @Builder.Default
-    private List<Integer> listInteger = List.of(3, 3);
+    private Integer[][] arrayOfArrayInteger = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    @Builder.Default
+    private List<List<Integer>> listInteger = List.of(List.of(3, 3));
     @Builder.Default
     private Map<Integer, String> mapInteger = Map.of(3, "3", 4, "4");
     @ConfidentialField(value = '£')

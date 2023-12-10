@@ -8,11 +8,13 @@
             <pattern>%msg</pattern>
         </layout>
     </appender>
+    <conversionRule conversionWord="jsonMsg" converterClass="me.oussamamessaoudi.JsonMessageConverter"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <variable scope="context" name="traces" value="%replace(, %X{traceId}, %X{spanId}){', , ', ''}"/>
-        <encoder>
-            <Pattern>%d %-4relative [%thread] %highlight([%level${traces}]) %cyan(%logger{35}) - %msg%n</Pattern>
-        </encoder>
+        <layout>
+            <Pattern>%magenta(%d) %-4relative [%thread] %highlight([%level${traces}]) %cyan(%logger{35}) - %jsonMsg%n
+            </Pattern>
+        </layout>
     </appender>
 
     <root level="INFO">
